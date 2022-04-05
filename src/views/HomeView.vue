@@ -8,26 +8,50 @@
   </button>
   <div class="home">
     <div class="row">
-      <div class="col-6">
-        <div>帳單</div>
-        <form>
-          <input type="number" v-model="curBillNum" id="billInput" />
+      <div class="col-6 row">
+        <div class="col-12">帳單</div>
+        <!-- <form> -->
+        <div class="col-12">
+          <input
+            type="number"
+            v-model="curBillNum"
+            v-on:keyup.enter="clickBill()"
+            id="billInput"
+          />
           <button type="button" v-on:click="clickBill()">加入清單</button>
-        </form>
-
-        <div v-for="(data, index) in billArray" :key="index">
+          <!-- </form> -->
+        </div>
+        <div v-for="(data, index) in billArray" :key="index" class="col-12">
           {{ data }}
+          <button type="button" v-on:click="deleteSingleBill(index)">
+            刪除
+          </button>
+        </div>
+        <div class="col-12 pt-2">
+          總計<input type="number" readonly v-model="billSum" />
         </div>
       </div>
-      <div class="col-6">
-        <div>消費紀錄</div>
-        <form>
-          <input type="number" v-model="curRecordNum" id="RecordInput" />
+      <div class="col-6 row">
+        <div class="col-12">消費紀錄</div>
+        <!-- <form> -->
+        <div class="col-12">
+          <input
+            type="number"
+            v-model="curRecordNum"
+            v-on:keyup.enter="clickRecord()"
+            id="RecordInput"
+          />
           <button type="button" v-on:click="clickRecord()">加入清單</button>
-        </form>
-
-        <div v-for="(data, index) in recordArray" :key="index">
+          <!-- </form> -->
+        </div>
+        <div v-for="(data, index) in recordArray" :key="index" class="col-12">
           {{ data }}
+          <button type="button" v-on:click="deleteSingleRecord(index)">
+            刪除
+          </button>
+        </div>
+        <div class="col-12 pt-2">
+          總計<input type="number" readonly v-model="recordSum" />
         </div>
       </div>
     </div>
@@ -48,25 +72,30 @@ import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 export default class HomeView extends Vue {
   curBillNum = 0;
   billArray: Array<number> = [];
-
+  billSum = 0;
   curRecordNum = 0;
   recordArray: Array<number> = [];
+  recordSum = 0;
 
-  testFunc() {
-    let aaa = "rqr";
-    console.log(aaa);
+  calBillSum() {
+    this.billSum = this.getSum(this.billArray);
+  }
+  calRecordSum() {
+    this.recordSum = this.getSum(this.recordArray);
   }
 
   clickBill() {
     let addData = this.curBillNum;
     this.billArray.push(addData);
     this.curBillNum = 0;
+    this.calBillSum();
   }
 
   clickRecord() {
     let addData = this.curRecordNum;
     this.recordArray.push(addData);
     this.curRecordNum = 0;
+    this.calRecordSum();
   }
 
   compare() {
@@ -101,10 +130,31 @@ export default class HomeView extends Vue {
   }
 
   clearDatas() {
+    //alert("clear");
     this.curBillNum = 0;
     this.billArray = [];
     this.curRecordNum = 0;
     this.recordArray = [];
+    this.calBillSum();
+    this.calRecordSum();
+  }
+
+  deleteSingleBill(index: number) {
+    this.billArray.splice(index, 1);
+    this.calBillSum();
+  }
+
+  deleteSingleRecord(index: number) {
+    this.recordArray.splice(index, 1);
+    this.calRecordSum();
+  }
+
+  getSum(numArt: Array<number>): number {
+    let sum = 0;
+    for (let i = 0; i < numArt.length; i++) {
+      sum += numArt[i];
+    }
+    return sum;
   }
 }
 </script>
