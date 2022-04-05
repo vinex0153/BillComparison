@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkbillcomparsion"]=self["webpackChunkbillcomparsion"]||[]).push([[443],{335:function(n,a,r){r.r(a),r.d(a,{default:function(){return b}});var s=r(252);const u={class:"about"},i=(0,s._)("h1",null,"This is an about page",-1),t=[i];function c(n,a){return(0,s.wg)(),(0,s.iD)("div",u,t)}var e=r(744);const o={},l=(0,e.Z)(o,[["render",c]]);var b=l}}]);
+//# sourceMappingURL=about.a262beaa.js.map
